@@ -310,11 +310,11 @@ config.action_mailer.delivery_method = :mailjet
 #### Set the raw HTML for a campaign:
 
 ```ruby
-> campaign.set_html("<html><head><title>Test</title></head><body>Test <a href=\"[[UNSUB_LINK_EN]]\">[[UNSUB_LINK_EN]]</a></body></html>") 
+> campaign.set_html("<html><head><title>Test</title></head><body>Test <a href=\"[[UNSUB_LINK_EN]]\">[[UNSUB_LINK_EN]]</a></body></html>")
 => OK # response status
 ```
 
-*All parameters and attributes at https://eu.mailjet.com/docs/api/message/sethtmlcampaign* 
+*All parameters and attributes at https://eu.mailjet.com/docs/api/message/sethtmlcampaign*
 
 #### Duplicate a campaign:
 
@@ -461,7 +461,7 @@ Then at the root of the gem, simply run:
 
 ```bash
 bundle
-rake
+bundle exec rake
 ```
 ## Send a pull request
 
