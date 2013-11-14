@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "activesupport", ">= 3.1.0"
   s.add_dependency "rack", ">= 1.4.0"
+  s.add_dependency "rest-client"
   s.add_development_dependency "actionmailer", ">= 3.0.9"
   s.add_development_dependency "minitest"
   s.add_development_dependency "minitest-matchers"
@@ -28,4 +29,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "json"
   s.add_development_dependency "rack"
   s.add_development_dependency "mocha"
+  s.add_development_dependency "webmock"
+  s.add_development_dependency "vcr"
+  s.add_development_dependency 'guard'
+  s.add_development_dependency 'guard-minitest'
 end

@@ -1,8 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/matchers'
-require "mocha"
+require 'minitest/pride'
+require 'mocha/setup'
 require 'mailjet'
-require 'turn'
+require 'mailjet/resource'
+begin; require 'turn/autorun'; rescue LoadError; end
+
+require File.expand_path './support/vcr_setup.rb', __dir__
 
 test_account = YAML::load(File.new(File.expand_path("../../config.yml", __FILE__)))['mailjet']
 
@@ -14,9 +18,13 @@ MiniTest::Spec.before do
   end
 end
 
-MiniTest::Spec.after do
-  Object.send(:remove_const, 'Mailjet')
-  Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each {|f| load f}
-end
+# MiniTest::Spec.after do
+#   Object.send(:remove_const, 'Mailjet')
+#   Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each {|f| load f}
+# end
 
 Turn.config.format = :outline
+
+
+
+

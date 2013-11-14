@@ -1,4 +1,4 @@
-require 'minitest_helper'
+require 'spec_helper'
 
 describe Mailjet::Configuration do
   describe "accessors" do
