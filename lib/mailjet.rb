@@ -3,19 +3,15 @@ require 'ostruct'
 require 'mailjet/core_extensions/ostruct'
 # require 'mailjet/api_error'
 require 'mailjet/configuration'
-# require 'mailjet/contact'
-# require 'mailjet/list'
-# require 'mailjet/campaign'
-# require 'mailjet/template_category'
-# require 'mailjet/template_model'
-# require 'mailjet/reporting'
-# require 'mailjet/click'
-# require 'mailjet/email'
 
 require 'mailjet/resource'
-require 'mailjet/resources/contact_list'
-require 'mailjet/resources/profile'
+require 'mailjet/generators/resource_generator'
 
+Dir[File.expand_path("../mailjet/resources/*.rb", __FILE__)].each do |file|
+  require file
+end
+
+# require 'mailjet/railtie' if defined?(Rails)
 
 module Mailjet
   def self.configure

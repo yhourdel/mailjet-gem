@@ -1,5 +1,5 @@
 module Mailjet
   class ApiToken < Mailjet::Resource
-    self.resource_name = 'apitoken'
+    self.resource_path = 'apitoken'
   end
 end

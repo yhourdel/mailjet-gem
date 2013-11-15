@@ -1,7 +1,7 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class ContactList < Mailjet::Resource
+  class Contactslist < Mailjet::Resource
     self.resource_path = 'contactslist'
   end
 end

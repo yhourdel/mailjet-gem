@@ -9,11 +9,11 @@ module Mailjet
 
     class << self
       def inherited(subclass)
-        subclass.cattr_accessor :resource_name
+        subclass.cattr_accessor :resource_path
       end
 
       def connection
-        @@connection = RestClient::Resource.new("#{Mailjet.config.end_point}/#{resource_name}", Mailjet.config.api_key, Mailjet.config.secret_key)
+        @@connection = RestClient::Resource.new("#{Mailjet.config.end_point}/#{resource_path}", Mailjet.config.api_key, Mailjet.config.secret_key)
       end
 
       def first

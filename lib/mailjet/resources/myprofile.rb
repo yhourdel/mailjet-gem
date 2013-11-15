@@ -1,7 +1,7 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Profile < Mailjet::Resource
+  class Myprofile < Mailjet::Resource
     self.resource_path = 'myprofile'
   end
 end
