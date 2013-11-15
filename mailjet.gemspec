@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "actionmailer", ">= 3.0.9"
   s.add_development_dependency "minitest"
   s.add_development_dependency "minitest-matchers"
+  s.add_development_dependency "minitest-spec-context"
   s.add_development_dependency "turn"
   s.add_development_dependency "rake"
   s.add_development_dependency "json"

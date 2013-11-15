@@ -3,6 +3,7 @@ require 'mailjet/resource'
 require 'active_support/hash_with_indifferent_access'
 require 'active_support/core_ext/class'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/module/delegation'
 
 module Mailjet
   class Resource
@@ -12,52 +13,66 @@ module Mailjet
         subclass.cattr_accessor :resource_path
       end
 
-      def connection
-        @@connection = RestClient::Resource.new("#{Mailjet.config.end_point}/#{resource_path}", Mailjet.config.api_key, Mailjet.config.secret_key)
+      def connection=(new_connection)
+        @@connection = new_connection
       end
 
-      def first
-        all.first
+      def connection
+        @@connection ||= RestClient::Resource.new(
+          "#{Mailjet.config.end_point}/#{resource_path}",
+          Mailjet.config.api_key,
+          Mailjet.config.secret_key)
+      end
+
+      def first(params = {})
+        all(params.merge!(limit: 1)).first
       end
 
       def all(params = {})
-        response = ActiveSupport::JSON.decode(connection.get(params: params))
-        attribute_array = response["Data"]
-        attribute_array.map do |attributes|
-          attributes = underscore_keys(attributes)
-          attributes[:count] = response["Total"] if params[:count] == true
-          self.new(attributes).tap{ |resource| resource.persisted = true }
-        end
+        attribute_array = parse_api_json(connection.get(params: params))
+        attribute_array.map{ |attributes| instanciate_from_api(attributes) }
+      end
+
+      def count
+        parse_api_json(connection.get(limit: 1, count_records: 1))[:total]
       end
 
       def find(id)
-        response = ActiveSupport::JSON.decode(connection[id].get)
-        attribute_array = response["Data"]
-        attributes = attribute_array.first
-        attributes = underscore_keys(attributes)
-        self.new(attributes).tap{ |resource| resource.persisted = true }
+        attributes = parse_api_json(connection[id].get).first
+        instanciate_from_api(attributes)
       rescue RestClient::ResourceNotFound
         nil
       end
 
       def create(attributes = {})
         self.new(attributes).tap do |resource|
-          resource.persisted = true if resource.save
+          resource.save!
+          resource.persisted = true
         end
+      end
+
+      def instanciate_from_api(attributes = {})
+        self.new(attributes.merge(persisted: true))
+      end
+
+      def parse_api_json(response_json)
+        response_hash = ActiveSupport::JSON.decode(response_json)
+        response_data_array = response_hash['Data']
+        response_data_array.map{ |response_data| underscore_keys(response_data) }
       end
 
       def camelcase_keys(hash)
-        hash.inject({}) do |_hash, (key, value)|
-          key_to_s = key.to_s
-          _hash[key_to_s.camelcase] = value
-          _hash
-        end
+        map_keys(hash, :camelcase)
       end
 
       def underscore_keys(hash)
+        map_keys(hash, :underscore)
+      end
+
+      def map_keys(hash, method)
         hash.inject({}) do |_hash, (key, value)|
-          key_to_s = key.to_s
-          _hash[key_to_s.underscore] = value
+          new_key = key.to_s.send(method)
+          _hash[new_key] = value
           _hash
         end
       end
@@ -65,9 +80,11 @@ module Mailjet
 
     attr_accessor :attributes, :persisted
 
-    def initialize(_attributes)
-      @persisted = _attributes.delete(:persisted) || false
-      @attributes = ActiveSupport::HashWithIndifferentAccess.new(_attributes)
+    def initialize(_attributes = nil)
+      @persisted = false
+      @attributes = ActiveSupport::HashWithIndifferentAccess.new
+
+      self.attributes = _attributes
     end
 
     def persisted?
@@ -75,24 +92,30 @@ module Mailjet
     end
 
     def save
-      payload = self.class.camelcase_keys(attributes)
-
-      puts payload.inspect
+      payload = camelcase_keys(attributes)
 
       if persisted?
-        response = ActiveSupport::JSON.decode(connection[id].put(payload))
+        response = parse_api_json(connection[id].put(payload))
       else
-        response = ActiveSupport::JSON.decode(connection.post(payload))
+        response = connection.post(payload)
       end
-      puts "RESPONSE: #{response.inspect}"
-      self.attributes = self.class.underscore_keys(response['Data'].first)
+
+      self.attributes = parse_api_json(response)
+      return true
     rescue RestClient::NotModified
       puts "WARNING: NotModified"
+      # TODO: return !dirty?
       return false
     end
 
+    def save!
+      save || raise(StandardError.new("Resource not persisted"))
+    end
+
     def attributes=(attribute_hash = {})
-      self.attributes.merge!(attribute_hash)
+      attribute_hash.each do |attribute_name, value|
+        self.send("#{attribute_name}=", value)
+      end
     end
 
     def update_attributes(attribute_hash = {})
@@ -108,6 +131,18 @@ module Mailjet
 
     def connection
       self.class.connection
+    end
+
+    def camelcase_keys(hash)
+      self.class.camelcase_keys(hash)
+    end
+
+    def underscore_keys(hash)
+      self.class.underscore_keys(hash)
+    end
+
+    def parse_api_json(response_json)
+      self.class.parse_api_json(response_json)
     end
 
     def method_missing(method_symbol, *arguments) #:nodoc:

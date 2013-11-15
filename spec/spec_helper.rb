@@ -1,10 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/matchers'
 require 'minitest/pride'
+require 'minitest-spec-context'
 require 'mocha/setup'
 require 'mailjet'
 require 'mailjet/resource'
-begin; require 'turn/autorun'; rescue LoadError; end
+require 'turn/autorun'
 
 require File.expand_path './support/vcr_setup.rb', __dir__
 
@@ -19,13 +20,4 @@ MiniTest::Spec.before do
   end
 end
 
-# MiniTest::Spec.after do
-#   Object.send(:remove_const, 'Mailjet')
-#   Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each {|f| load f}
-# end
-
 Turn.config.format = :outline
-
-
-
-

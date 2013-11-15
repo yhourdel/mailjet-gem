@@ -1,8 +1,8 @@
 require 'active_support'
 require 'ostruct'
 require 'mailjet/core_extensions/ostruct'
-# require 'mailjet/api_error'
 require 'mailjet/configuration'
+# require 'mailjet/api_error'
 
 require 'mailjet/resource'
 require 'mailjet/generators/resource_generator'
@@ -10,8 +10,6 @@ require 'mailjet/generators/resource_generator'
 Dir[File.expand_path("../mailjet/resources/*.rb", __FILE__)].each do |file|
   require file
 end
-
-# require 'mailjet/railtie' if defined?(Rails)
 
 module Mailjet
   def self.configure

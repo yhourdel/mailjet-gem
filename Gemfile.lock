@@ -72,6 +72,7 @@ GEM
     minitest (2.11.3)
     minitest-matchers (1.2.0)
       minitest (>= 2.5.0)
+    minitest-spec-context (0.0.3)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.1.0)
@@ -130,6 +131,7 @@ DEPENDENCIES
   mailjet!
   minitest
   minitest-matchers
+  minitest-spec-context
   mocha
   rack
   rake
