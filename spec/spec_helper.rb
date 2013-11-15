@@ -14,6 +14,7 @@ MiniTest::Spec.before do
   Mailjet.configure do |config|
     config.api_key = test_account['api_key']
     config.secret_key = test_account['secret_key']
+    config.end_point = test_account['end_point']
     config.default_from = test_account['default_from']
   end
 end

@@ -13,7 +13,7 @@ module Mailjet
       end
 
       def connection
-        @@connection = RestClient::Resource.new("http://#{Mailjet.config.end_point}/#{resource_name}", Mailjet.config.api_key, Mailjet.config.secret_key)
+        @@connection = RestClient::Resource.new("#{Mailjet.config.end_point}/#{resource_name}", Mailjet.config.api_key, Mailjet.config.secret_key)
       end
 
       def first
@@ -45,8 +45,6 @@ module Mailjet
           resource.persisted = true if resource.save
         end
       end
-
-      protected
 
       def camelcase_keys(hash)
         hash.inject({}) do |_hash, (key, value)|
