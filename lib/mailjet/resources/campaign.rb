@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Campaign < Mailjet::Resource
+  class Campaign
+    include Mailjet::Resource
     self.resource_path = 'campaign'
   end
 end

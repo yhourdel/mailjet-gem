@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Manycontacts < Mailjet::Resource
+  class Manycontacts
+    include Mailjet::Resource
     self.resource_path = 'manycontacts'
   end
 end

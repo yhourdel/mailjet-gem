@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Domainstatistics < Mailjet::Resource
+  class Domainstatistics
+    include Mailjet::Resource
     self.resource_path = 'domainstatistics'
   end
 end

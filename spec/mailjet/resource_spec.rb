@@ -6,7 +6,8 @@ describe Mailjet::Resource do
   let(:connection){ MiniTest::Mock.new }
 
   subject do
-    class TestResource < Mailjet::Resource
+    class TestResource
+      include Mailjet::Resource
       self.resource_path = "test"
     end
     TestResource.connection = connection

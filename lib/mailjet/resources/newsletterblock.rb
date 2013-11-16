@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Newsletterblock < Mailjet::Resource
+  class Newsletterblock
+    include Mailjet::Resource
     self.resource_path = 'newsletterblock'
   end
 end

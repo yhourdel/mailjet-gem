@@ -4,26 +4,29 @@ require 'active_support/hash_with_indifferent_access'
 require 'active_support/core_ext/class'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/module/delegation'
+require 'active_support/concern'
 
 module Mailjet
-  class Resource
+  module Resource
+    extend ActiveSupport::Concern
 
-    class << self
-      def inherited(subclass)
-        subclass.cattr_accessor :resource_path
+    included do
+      cattr_accessor :resource_path, :connection
+
+      def self.connection
+        class_variable_set(:@@connection,
+          class_variable_get(:@@connection) || default_connection)
       end
 
-      def connection=(new_connection)
-        @@connection = new_connection
-      end
-
-      def connection
-        @@connection ||= RestClient::Resource.new(
+      def self.default_connection
+        RestClient::Resource.new(
           "#{Mailjet.config.end_point}/#{resource_path}",
           Mailjet.config.api_key,
           Mailjet.config.secret_key)
       end
+    end
 
+    module ClassMethods
       def first(params = {})
         all(params.merge!(limit: 1)).first
       end
@@ -34,7 +37,9 @@ module Mailjet
       end
 
       def count
-        parse_api_json(connection.get(limit: 1, count_records: 1))[:total]
+        response_json = connection.get(params: {limit: 1, countrecords: 1})
+        response_hash = ActiveSupport::JSON.decode(response_json)
+        response_hash['Total']
       end
 
       def find(id)
@@ -95,7 +100,7 @@ module Mailjet
       payload = camelcase_keys(attributes)
 
       if persisted?
-        response = parse_api_json(connection[id].put(payload))
+        response = connection[id].put(payload)
       else
         response = connection.post(payload)
       end

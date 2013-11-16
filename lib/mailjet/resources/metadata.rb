@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Metadata < Mailjet::Resource
+  class Metadata
+    include Mailjet::Resource
     self.resource_path = 'metadata'
   end
 end

@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Bouncestatistics < Mailjet::Resource
+  class Bouncestatistics
+    include Mailjet::Resource
     self.resource_path = 'bouncestatistics'
   end
 end

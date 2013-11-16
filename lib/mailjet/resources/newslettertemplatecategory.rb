@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Newslettertemplatecategory < Mailjet::Resource
+  class Newslettertemplatecategory
+    include Mailjet::Resource
     self.resource_path = 'newslettertemplatecategory'
   end
 end

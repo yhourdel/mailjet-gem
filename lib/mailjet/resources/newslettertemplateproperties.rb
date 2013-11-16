@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Newslettertemplateproperties < Mailjet::Resource
+  class Newslettertemplateproperties
+    include Mailjet::Resource
     self.resource_path = 'newslettertemplateproperties'
   end
 end

@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Graphstatistics < Mailjet::Resource
+  class Graphstatistics
+    include Mailjet::Resource
     self.resource_path = 'graphstatistics'
   end
 end

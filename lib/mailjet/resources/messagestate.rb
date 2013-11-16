@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Messagestate < Mailjet::Resource
+  class Messagestate
+    include Mailjet::Resource
     self.resource_path = 'messagestate'
   end
 end

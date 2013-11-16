@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Preferences < Mailjet::Resource
+  class Preferences
+    include Mailjet::Resource
     self.resource_path = 'preferences'
   end
 end

@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Geostatistics < Mailjet::Resource
+  class Geostatistics
+    include Mailjet::Resource
     self.resource_path = 'geostatistics'
   end
 end

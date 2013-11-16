@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Metasender < Mailjet::Resource
+  class Metasender
+    include Mailjet::Resource
     self.resource_path = 'metasender'
   end
 end

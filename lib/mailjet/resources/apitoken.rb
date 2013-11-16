@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Apitoken < Mailjet::Resource
+  class Apitoken
+    include Mailjet::Resource
     self.resource_path = 'apitoken'
   end
 end

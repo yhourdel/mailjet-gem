@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Openstatistics < Mailjet::Resource
+  class Openstatistics
+    include Mailjet::Resource
     self.resource_path = 'openstatistics'
   end
 end

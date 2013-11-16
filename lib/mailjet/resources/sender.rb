@@ -1,7 +1,8 @@
 require 'mailjet/resource'
 
 module Mailjet
-  class Sender < Mailjet::Resource
+  class Sender
+    include Mailjet::Resource
     self.resource_path = 'sender'
   end
 end

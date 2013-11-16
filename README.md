@@ -30,12 +30,10 @@ This gem helps you to:
 
 Compatibility:
 
- - Ruby 1.8.7
  - Ruby 1.9.X
- - [jRuby][jruby]
- - [Rubinius][rubinius]
+ - Ruby 2.0.0
 
-Rails ActionMailer integration designed for Rails 3.X
+Rails ActionMailer integration designed for Rails 3.X and 4.X
 
 ## Install
 
@@ -472,3 +470,62 @@ bundle exec rake
  - Add specs for your feature or bug fix.
  - Commit and push your changes.
  - Submit a pull request. Please do not include changes to the gemspec, or version file.
+
+
+
+
+Count
+Total
+Data:array
+    Name:string
+    Description:string
+    Filters:array
+
+    Properties:array
+    IsReadOnly:bool
+    PublicOperations:string ("Get, Put, Post, Delete")
+    SortInfo:array
+    UniqueKey:string
+
+
+
+lists = ContactList.all(
+  deleted: false, name: "", address: "", exclude_id: 0,
+  limit: 0, offset: 0, order_by: [:id], order_dir: :asc)
+
+lists.size
+lists.total
+
+ContactList.count
+
+list = ContactList.first(
+  deleted: false, name: "", address: "", exclude_id: 0,
+  offset: 0, order_by: [:id], order_dir: :asc) # see also: .last
+
+list = lists.first
+list = ContactsList.find(id)
+
+list.name = "A new name"
+list.save
+
+list.update_attributes(name: "A new name")
+
+list.attributes(name: "A new name")
+list.save
+
+list.attributes
+
+list.destroy
+
+ContactList.destroy(id)
+
+lists = ContactList.paginate(page: 1, per_page: 10)
+lists.size
+lists.count
+
+Questions:
+* CountRecords (par défaut à 1, total == count qd à 0 )
+* Dans http://mjdemo.poxx.net/~shubham/contactslist.html, il manque get /id
+* UMPStatus?
+* GET /manycontacts => Error
+* Which fields can we update?
