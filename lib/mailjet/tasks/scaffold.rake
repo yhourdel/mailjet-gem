@@ -20,7 +20,7 @@ namespace :mailjet do
     resources = metadata['Data']
 
     resources.each do |resource|
-      generator = Mailjet::Generators::ResourceGenerator.new(resource['Name'])
+      generator = Mailjet::Generators::ResourceGenerator.new(resource)
       generator.create_resource_file
       puts "#{resource['Name']} created"
     end

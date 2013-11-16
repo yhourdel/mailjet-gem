@@ -11,7 +11,7 @@ module Mailjet
     extend ActiveSupport::Concern
 
     included do
-      cattr_accessor :resource_path
+      cattr_accessor :resource_path, :public_operations, :read_only
       cattr_writer :connection
 
       def self.connection
@@ -22,7 +22,9 @@ module Mailjet
         Mailjet::Connection.new(
           "#{Mailjet.config.end_point}/#{resource_path}",
           Mailjet.config.api_key,
-          Mailjet.config.secret_key)
+          Mailjet.config.secret_key,
+          public_operations: public_operations,
+          read_only: read_only)
       end
     end
 

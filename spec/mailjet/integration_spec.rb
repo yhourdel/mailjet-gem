@@ -6,6 +6,7 @@ describe "Mailjet API Resource" do
     class Mailjet::Contactlist
       include Mailjet::Resource
       self.resource_path = "contactslist"
+      self.public_operations = [:get, :post, :put, :delete]
     end
     Mailjet::Contactlist
   end

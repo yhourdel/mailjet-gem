@@ -20,9 +20,9 @@ describe Mailjet::Resource do
     end
 
     describe ".connection" do
-      it "returns a RestClient::Resource referring to the \"test\" resource" do
+      it "returns a Mailjet::Connection referring to the \"test\" resource" do
         connection = subject.connection
-        connection.must_be_instance_of RestClient::Resource
+        connection.must_be_instance_of Mailjet::Connection
         connection.url.must_match "#{Mailjet.config.end_point}/#{resource_path}"
       end
     end
