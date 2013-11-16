@@ -2,7 +2,7 @@ require 'active_support'
 require 'ostruct'
 require 'mailjet/core_extensions/ostruct'
 require 'mailjet/configuration'
-# require 'mailjet/api_error'
+require 'mailjet/api_error'
 
 require 'mailjet/resource'
 require 'mailjet/generators/resource_generator'

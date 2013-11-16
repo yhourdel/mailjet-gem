@@ -1,4 +1,4 @@
-require 'rest_client'
+require 'mailjet/connection'
 require 'mailjet/resource'
 require 'active_support/hash_with_indifferent_access'
 require 'active_support/core_ext/class'
@@ -11,15 +11,15 @@ module Mailjet
     extend ActiveSupport::Concern
 
     included do
-      cattr_accessor :resource_path, :connection
+      cattr_accessor :resource_path
+      cattr_writer :connection
 
       def self.connection
-        class_variable_set(:@@connection,
-          class_variable_get(:@@connection) || default_connection)
+        class_variable_get(:@@connection) || default_connection
       end
 
       def self.default_connection
-        RestClient::Resource.new(
+        Mailjet::Connection.new(
           "#{Mailjet.config.end_point}/#{resource_path}",
           Mailjet.config.api_key,
           Mailjet.config.secret_key)
