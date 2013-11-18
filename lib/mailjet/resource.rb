@@ -34,6 +34,7 @@ module Mailjet
       end
 
       def all(params = {})
+        params = format_params(params)
         attribute_array = parse_api_json(connection.get(params: params))
         attribute_array.map{ |attributes| instanciate_from_api(attributes) }
       end
@@ -58,7 +59,7 @@ module Mailjet
         end
       end
 
-      def destroy(id)
+      def delete(id)
         connection[id].delete
       end
 
@@ -70,6 +71,16 @@ module Mailjet
         response_hash = ActiveSupport::JSON.decode(response_json)
         response_data_array = response_hash['Data']
         response_data_array.map{ |response_data| underscore_keys(response_data) }
+      end
+
+      def format_params(params)
+        if params[:sort]
+          params[:sort] = params[:sort].map do |attribute, direction|
+            attribute = attribute.to_s.camelcase
+            direction = direction.to_s.upcase
+            "#{attribute} #{direction}"
+          end.join(', ')
+        end
       end
 
       def camelcase_keys(hash)
@@ -114,9 +125,7 @@ module Mailjet
       self.attributes = parse_api_json(response)
       return true
     rescue RestClient::NotModified
-      puts "WARNING: NotModified"
-      # TODO: return !dirty?
-      return false
+      return true # When you save a record twice it should not raise error
     end
 
     def save!
@@ -134,8 +143,8 @@ module Mailjet
       save
     end
 
-    def destroy
-      self.class.destroy(id)
+    def delete
+      self.class.delete(id)
     end
 
     private

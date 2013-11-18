@@ -119,7 +119,7 @@ You can refine queries using [API Filters][apidoc-recipient]`*` as well as the f
 * format: `:json, :xml, :rawxml, :html, :csv` or `:phpserialized` (default: `:json`)
 * limit: int (default: 10)
 * offset: int (default: 0)
-* sort: `[['poperty', :asc], ['poperty', :desc]]`
+* sort: `[[:poperty, :asc], [:poperty, :desc]]`
 
 `*` See below for [naming conventions](#naming-conventions)
 
