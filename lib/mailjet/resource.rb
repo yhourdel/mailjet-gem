@@ -58,6 +58,10 @@ module Mailjet
         end
       end
 
+      def destroy(id)
+        connection[id].delete
+      end
+
       def instanciate_from_api(attributes = {})
         self.new(attributes.merge(persisted: true))
       end
@@ -131,7 +135,7 @@ module Mailjet
     end
 
     def destroy
-      connection[id].delete
+      self.class.destroy(id)
     end
 
     private
