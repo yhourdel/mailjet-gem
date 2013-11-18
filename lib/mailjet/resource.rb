@@ -81,6 +81,7 @@ module Mailjet
             "#{attribute} #{direction}"
           end.join(', ')
         end
+        params
       end
 
       def camelcase_keys(hash)
