@@ -21,6 +21,8 @@
 [activeresource]:https://github.com/rails/activeresource
 [apidoc]:http://mjdemo.poxx.net/~shubham/user.html?utm_source=github&utm_medium=link&utm_content=readme&utm_campaign=mailjet-gem
 [apidoc-recipient]: http://mjdemo.poxx.net/~shubham/listrecipient.html?utm_source=github&utm_medium=link&utm_content=readme&utm_campaign=mailjet-gem
+[camelcase-api]: http://api.rubyonrails.org/classes/String.html#method-i-camelcase
+[underscore-api]: http://api.rubyonrails.org/classes/String.html#method-i-underscore
 
 <!-- You can read this readme file in other languages:
 english | [french](./README.fr.md) -->
@@ -170,8 +172,8 @@ You can refine queries using [API Filters][apidoc-recipient]`*` as well as the f
 
 ### Naming conventions
 
-* Classes names are the camelcased version of resource names (e.g. class name for `listrecipient` resource will be `Listrecipient`)
-* Ruby attribute names are the underscored versions of API attributes names (e.g. `IsActive` will be `is_active` in ruby)
+* Classes names are the [camelcased][camelcase-api] version of resource names (e.g. class name for `listrecipient` resource will be `Listrecipient`)
+* Ruby attribute names are the [underscored][underscore-api] versions of API attributes names (e.g. `IsActive` will be `is_active` in ruby)
 * If you do not like the name of the resource, you can easily rename them. For instance, if you want a capital R to ListRecipient, you can define the following class:
 
 ```ruby
