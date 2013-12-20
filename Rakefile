@@ -5,8 +5,6 @@ Bundler::GemHelper.install_tasks
 
 $:.push File.expand_path("../lib", __FILE__)
 
-load 'mailjet/tasks/scaffold.rake'
-
 Rake::TestTask.new(:spec) do |t|
   t.libs << 'lib'
   t.libs << 'spec'

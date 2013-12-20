@@ -5,7 +5,6 @@ require 'mailjet/configuration'
 require 'mailjet/api_error'
 
 require 'mailjet/resource'
-require 'mailjet/generators/resource_generator'
 
 Dir[File.expand_path("../mailjet/resources/*.rb", __FILE__)].each do |file|
   require file
